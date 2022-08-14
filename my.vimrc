@@ -7,8 +7,12 @@ set background=dark
 syntax on
 set nowrap
 set hlsearch
+"set colorcolumn=80
+highlight ColorColumn ctermbg=darkgrey
 set laststatus=2
 set number
+set fdm=syntax
+set foldlevel=99
 set relativenumber
 set ts=3
 set sw=3
@@ -24,6 +28,7 @@ set wildmenu
 set breakindent
 set breakindentopt=shift:2
 set showbreak=>> 
+set showcmd
 nnoremap <silent> ,e :Explore<CR>
 nnoremap <silent> ,t :Texplore<CR>
 inoremap jk <Esc>
@@ -44,6 +49,11 @@ nnoremap <silent> tn :lnext<CR>
 nnoremap <silent> tp :lp<CR>
 nnoremap <silent> to :lopen<CR>
 nnoremap <silent> tx :lclose<CR>
+nnoremap <silent> tt :lfirst<CR>
+nnoremap <silent> gr gT
+nnoremap <silent> <Leader>s :tab split<CR>
+nnoremap <silent> <Leader>c :tab close<CR>
+nnoremap <silent> <Leader>n :tab new<CR>
 
 " show current context function name ... idk if this works for anything other
 " than c/c++
@@ -67,3 +77,9 @@ fun! FindFiles(filename)
    call delete(error_file)
 endfun
 command! -nargs=1 FindFile call FindFiles(<q-args>)
+
+if !exists('g:lasttab')
+   let g:lasttab = 1
+endif
+nmap <Leader>l :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
